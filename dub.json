@@ -1,6 +1,6 @@
 {
     "name": "seed",
-    "description": "D base library.",
+    "description": "Command-line tool base library.",
     "license": "LGPL-3.0",
     "authors": [ "Eric Pelzer" ],
     "copyright": "Copyright © 2023, Eric Pelzer",

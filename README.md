@@ -2,7 +2,7 @@
 
 # Seed
 
-D base library.
+Command-line tool base library.
 
 ## Version
 
