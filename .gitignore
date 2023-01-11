@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/seed
+seed.so
+seed.dylib
+seed.dll
+seed.a
+seed.lib
+seed-test-*
+*.pdb
+*.o
+*.obj
+*.lst
