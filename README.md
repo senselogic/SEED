@@ -6,7 +6,7 @@ Command-line tool base library.
 
 ## Version
 
-1.0
+0.1
 
 ## Author
 

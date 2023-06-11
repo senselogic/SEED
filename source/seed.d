@@ -896,9 +896,15 @@ string GetBasilText(
             .replace( "\\", "\\\\" )
             .replace( "~", "\\~" )
             .replace( "^", "\\^" )
+            .replace( "{", "\\{" )
+            .replace( "}", "\\}" )
             .replace( "\n", "\\\\n" )
             .replace( "\r", "\\\\r" )
-            .replace( "\t", "\\\\t" );
+            .replace( "\t", "\\\\t" )
+            .ReplacePrefix( "#", "\\#" )
+            .ReplacePrefix( "%", "\\%" )
+            .ReplacePrefix( " ", "^" )
+            .ReplaceSuffix( " ", "^" );
 }
 
 // ~~
@@ -934,6 +940,24 @@ string GetJsonText(
             .replace( "\r", "\\r" )
             .replace( "\t", "\\t" )
             .replace( "\"", "\\\"" )
+        ~ "\"";
+}
+
+// ~~
+
+string GetSqlText(
+    string text
+    )
+{
+    return
+        "\""
+        ~ text
+            .replace( "\\", "\\\\" )
+            .replace( "\n", "\\n" )
+            .replace( "\r", "\\r" )
+            .replace( "\t", "\\t" )
+            .replace( "\"", "\\\"" )
+            .replace( "'", "\\'" )
         ~ "\"";
 }
 
