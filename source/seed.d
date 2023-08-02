@@ -1039,7 +1039,7 @@ string GetFileLabel(
 
     if ( dot_character_index >= 0 )
     {
-        return file_name[ 0 .. dot_character_index - 1 ];
+        return file_name[ 0 .. dot_character_index ];
     }
     else
     {
