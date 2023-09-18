@@ -613,6 +613,173 @@ string GetRightStrippedText(
 
 // ~~
 
+dstring GetUnaccentedCharacter(
+    dchar character,
+    string language_code = ""
+    )
+{
+    switch ( character )
+    {
+        case 'á', 'à', 'â' :
+        {
+            return "a";
+        }
+        case 'ä' :
+        {
+            if ( language_code == "de" )
+            {
+                return "ae";
+            }
+            else
+            {
+                return "a";
+            }
+        }
+        case 'é', 'è', 'ê', 'ë' :
+        {
+            return "e";
+        }
+        case 'í', 'ì', 'î', 'ï' :
+        {
+            return "i";
+        }
+        case 'ó', 'ò', 'ô' :
+        {
+            return "o";
+        }
+        case 'ö' :
+        {
+            if ( language_code == "de" )
+            {
+                return "oe";
+            }
+            else
+            {
+                return "o";
+            }
+        }
+        case 'ú', 'ù', 'û' :
+        {
+            return "u";
+        }
+        case 'ü' :
+        {
+            if ( language_code == "de" )
+            {
+                return "ue";
+            }
+            else
+            {
+                return "u";
+            }
+        }
+        case 'ç' :
+        {
+            return "c";
+        }
+        case 'ñ' :
+        {
+            return "n";
+        }
+        case 'ß' :
+        {
+            return "ss";
+        }
+        case 'Á', 'À', 'Â' :
+        {
+            return "A";
+        }
+        case 'Ä' :
+        {
+            if ( language_code == "de" )
+            {
+                return "Ae";
+            }
+            else
+            {
+                return "A";
+            }
+        }
+        case 'É', 'È', 'Ê', 'Ë' :
+        {
+            return "E";
+        }
+        case 'Í', 'Ì', 'Î' :
+        {
+            return "I";
+        }
+        case 'Ï' :
+        {
+            return "I";
+        }
+        case 'Ó', 'Ò', 'Ô' :
+        {
+            return "O";
+        }
+        case 'Ö' :
+        {
+            if ( language_code == "de" )
+            {
+                return "Oe";
+            }
+            else
+            {
+                return "O";
+            }
+        }
+        case 'Ú', 'Ù', 'Û' :
+        {
+            return "U";
+        }
+        case 'Ü' :
+        {
+            if ( language_code == "de" )
+            {
+                return "Ue";
+            }
+            else
+            {
+                return "U";
+            }
+        }
+        case 'Ç' :
+        {
+            return "C";
+        }
+        case 'Ñ' :
+        {
+            return "N";
+        }
+        default :
+        {
+            return character.to!dstring();
+        }
+    }
+}
+
+// ~~
+
+string GetUnaccentedText(
+    string text,
+    string language_code = ""
+    )
+{
+    dstring
+        unaccented_text,
+        unicode_text;
+
+    unicode_text = text.to!dstring();
+
+    foreach ( character; unicode_text )
+    {
+        unaccented_text ~= GetUnaccentedCharacter( character, language_code );
+    }
+
+    return unaccented_text.to!string();
+}
+
+// ~~
+
 string GetMinorCaseText(
     string text
     )
@@ -791,61 +958,22 @@ string GetKebabCaseText(
 
 // ~~
 
-dchar GetSlugCharacter(
-    dchar character
-    )
-{
-    switch ( character )
-    {
-        case 'à' : return 'a';
-        case 'â' : return 'a';
-        case 'é' : return 'e';
-        case 'è' : return 'e';
-        case 'ê' : return 'e';
-        case 'ë' : return 'e';
-        case 'î' : return 'i';
-        case 'ï' : return 'i';
-        case 'ô' : return 'o';
-        case 'ö' : return 'o';
-        case 'û' : return 'u';
-        case 'ü' : return 'u';
-        case 'ç' : return 'c';
-        case 'ñ' : return 'n';
-        case 'À' : return 'a';
-        case 'Â' : return 'a';
-        case 'É' : return 'e';
-        case 'È' : return 'e';
-        case 'Ê' : return 'e';
-        case 'Ë' : return 'e';
-        case 'Î' : return 'i';
-        case 'Ï' : return 'i';
-        case 'Ô' : return 'o';
-        case 'Ö' : return 'o';
-        case 'Û' : return 'u';
-        case 'Ü' : return 'u';
-        case 'C' : return 'c';
-        case 'Ñ' : return 'n';
-        default : return character.toLower();
-    }
-}
-
-// ~~
-
 string GetSlugCaseText(
-    string text
+    string text,
+    string language_code = ""
     )
 {
     dstring
         slug_case_text,
         unicode_text;
 
-    unicode_text = text.GetSpacedText().strip().to!dstring();
+    unicode_text = text.GetUnaccentedText().GetSpacedText().strip().to!dstring();
 
     foreach ( character; unicode_text )
     {
         if ( character.isAlpha() )
         {
-            slug_case_text ~= GetSlugCharacter( character );
+            slug_case_text ~= character.toLower();
         }
         else if ( character >= '0'
                   && character <= '9' )
@@ -874,6 +1002,16 @@ string GetSlugCaseText(
     }
 
     return slug_case_text.to!string();
+}
+
+// ~~
+
+string GetSearchCaseText(
+    string text,
+    string language_code = ""
+    )
+{
+    return GetSlugCaseText( text, language_code ).replace( '-', ' ' );
 }
 
 // ~~
