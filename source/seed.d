@@ -615,7 +615,8 @@ string GetRightStrippedText(
 
 dstring GetUnaccentedCharacter(
     dchar character,
-    string language_code = ""
+    string language_code = "",
+    bool next_character_is_lower_case = false
     )
 {
     switch ( character )
@@ -658,6 +659,10 @@ dstring GetUnaccentedCharacter(
                 return "o";
             }
         }
+        case 'œ' :
+        {
+            return "oe";
+        }
         case 'ú', 'ù', 'û' :
         {
             return "u";
@@ -693,7 +698,14 @@ dstring GetUnaccentedCharacter(
         {
             if ( language_code == "de" )
             {
-                return "Ae";
+                if ( next_character_is_lower_case )
+                {
+                    return "Ae";
+                }
+                else
+                {
+                    return "AE";
+                }
             }
             else
             {
@@ -720,12 +732,23 @@ dstring GetUnaccentedCharacter(
         {
             if ( language_code == "de" )
             {
-                return "Oe";
+                if ( next_character_is_lower_case )
+                {
+                    return "Oe";
+                }
+                else
+                {
+                    return "OE";
+                }
             }
             else
             {
                 return "O";
             }
+        }
+        case 'Œ' :
+        {
+            return "Oe";
         }
         case 'Ú', 'Ù', 'Û' :
         {
@@ -735,7 +758,14 @@ dstring GetUnaccentedCharacter(
         {
             if ( language_code == "de" )
             {
-                return "Ue";
+                if ( next_character_is_lower_case )
+                {
+                    return "Ue";
+                }
+                else
+                {
+                    return "UE";
+                }
             }
             else
             {
@@ -749,6 +779,17 @@ dstring GetUnaccentedCharacter(
         case 'Ñ' :
         {
             return "N";
+        }
+        case 'ẞ' :
+        {
+            if ( next_character_is_lower_case )
+            {
+                return "Ss";
+            }
+            else
+            {
+                return "SS";
+            }
         }
         default :
         {
@@ -1036,9 +1077,9 @@ string GetBasilText(
             .replace( "^", "\\^" )
             .replace( "{", "\\{" )
             .replace( "}", "\\}" )
-            .replace( "\n", "\\\\n" )
-            .replace( "\r", "\\\\r" )
-            .replace( "\t", "\\\\t" )
+            .replace( "\n", "\\n" )
+            .replace( "\r", "\\r" )
+            .replace( "\t", "\\t" )
             .ReplacePrefix( "#", "\\#" )
             .ReplacePrefix( "%", "\\%" )
             .ReplacePrefix( " ", "^" )
